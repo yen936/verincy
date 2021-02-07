@@ -3,6 +3,10 @@
 
 Mission: to protect those who cannot protect themselves with innovative technology
 
-Vision: to facilicate a mutually beniftal arrangement between users (first) and institiuions for the betterment of society
+Vision: facilite secure interactions of people and services
 
-Values: Privacy, Security, and Godly Virtue.
+Values: Privacy, Honesty and Godly Virtue.
+
+# Reqirements
+
+
