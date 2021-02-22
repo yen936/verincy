@@ -113,22 +113,15 @@ def verify():
 
 
 def verify_signature(signature, pub_key, input_string):
-    # Load the public key
-    # Url Safe Base64 Decoding
 
+    # Base64 Decode the inputs
     pemdata = base64.b64decode(pub_key)
-    public_key = load_der_public_key(pemdata)
     signature_decoded = base64.b64decode(signature)
 
-    # print(type(public_key))
-    # print(type(signature_decoded))
-    # print(type(input_string.encode('utf-8')))
+    # Load the public key
+    public_key = load_der_public_key(pemdata)
 
-    # print(public_key)
-    # print(signature_decoded)
-    # print(input_string.encode('utf-8'))
-
-    # Perform the verification.
+    # Perform the verification
     try:
         public_key.verify(
             signature_decoded,
@@ -143,17 +136,17 @@ def verify_signature(signature, pub_key, input_string):
 
 
 def verify_token(hash_local_token):
-    # Retrieve Master Token from DB
-    # Hash Master Token
-
+    # TODO: Retrieve Master Token from DB
+    # Hash Master Token from DB x5
     input_string = "pr8808ok8asm1ys8vdmwa5it8c"
     hashed_master_token = sha256(input_string.encode()).hexdigest()
-    count = 0
 
+    count = 0
     while count < 5:
         hashed_master_token = sha256(hashed_master_token.encode()).hexdigest()
         count += 1
 
+    # Preform verification 
     if hash_local_token == hashed_master_token:
         return True
     else:
