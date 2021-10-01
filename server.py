@@ -4,7 +4,12 @@ import json
 import sqlite3
 import datetime
 from sqlite3 import Error
+from pyfcm import FCMNotification
+import datetime
 
+push_service = FCMNotification(api_key='AAAA-7Kr15o:APA91bGaXA-5MV8dIwLJmsLV-AOEQskuafni92L5KjlW'
+                                       'm3svHL7A3PylNyWOxXFwAN00waETJh7c9HSFv2ftT09LUCHxkY_'
+                                       'Dvx38kl-tqGsCnjXVAXuVH66n6Os0Ve_-XeJcOBkb8auC')
 
 app = Flask(__name__)
 
@@ -111,6 +116,45 @@ def fingerprint():
     return jsonify("still Working")
 
 
+@app.route('/auth', methods=['POST'])
+def authenticate():
+    # read POSTed data
+    print(request.data)
+    record = json.loads(request.data)
+    username = record['username']
+    domain = record['domain']
+
+    # TODO: Get the registration_id for a username and domain
+    registration_id = "cN0-Av6jS0YeuhpvE6Gb_6:APA91bF1j6BtH-NQC_zQFCxLNdI2_" \
+                      "fATypTKVzHZF3qa5SCnfp8liKpRb5KJgRhKiTrPr2yaDNaDTUQp0VW" \
+                      "KrgXu_vycTvUYXEp0xloUQc7EJXPn7Uj8CAt5tjnTyX0pPkdA2TEW73rl"
+    message_title = "Login attempt " + domain
+    message_body = "Do you want to login to "
+
+    # Sending a notification with data message payload
+    data_message = {
+        'auth_challenge': {
+            "domain": record['domain'],
+            'time': datetime.datetime.now().time(),
+            'device_type': record['device_type']
+        }
+    }
+
+    # To a single device
+    result = push_service.notify_single_device(registration_id=registration_id,
+                                               message_title=message_title,
+                                               message_body=message_body,
+                                               data_message=data_message)
+    print(result)
+
+    # if x == y:
+    #     print("TOTAL SUCCESS")
+    #     return jsonify({"Verification": "SUCCESSFUL Signature AND Token Verification"})
+    # else:
+    #     print('TOTAL FAILURE')
+    #     return jsonify({"Verification": "FAILED Signature or Token Verification"})
+
+
 @app.route('/', methods=['POST'])
 def verify():
     record = json.loads(request.data)
@@ -120,7 +164,8 @@ def verify():
     input_string = record['input_string']
     domain = record['domain']
 
-    sig_verification_response = auth.verify_signature(signature=signature, pub_key=public_key, input_string=input_string)
+    sig_verification_response = auth.verify_signature(signature=signature, pub_key=public_key,
+                                                      input_string=input_string)
     print(sig_verification_response)
     token_verification_response = auth.verify_token(hash_local_token, domain=domain)
     print("Token Verification: ", token_verification_response)
@@ -137,4 +182,3 @@ if __name__ == '__main__':
     app.run(debug=True)
     # update_token("JJJJJ", "testdomain.com")
     # token_init("JJJJJ", "testdomain.com")
-

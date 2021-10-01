@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
-
+import requests
 
 app = Flask(__name__)
 
@@ -19,12 +19,26 @@ def dashboard():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
-        else:
-            return redirect(url_for('home'))
+
+        url = "http://127.0.0.1:5000/auth"
+        data = {'username': request.form['username'],
+                'domain': "testdomain.com"}
+
+        response = requests.post(url=url, data=data)
+        # if request.form['username'] != 'admin':
+        #     error = 'Invalid Credentials. Please try again.'
+        # else:
+        #     return redirect(url_for('home'))
+
+        print(response)
+
+        # if response != 'verified':
+        #     error = 'Invalid Credentials. Please try again.'
+        # else:
+        #     return redirect(url_for('home'))
+
     return render_template('sample_login.html', error=error)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
