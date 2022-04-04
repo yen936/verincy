@@ -9,8 +9,6 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
 
-
-
 def key_gen():
     """ Generates Public and Private Key pair using RSA. Key size 4096."""
 
