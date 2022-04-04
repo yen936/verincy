@@ -16,7 +16,6 @@ def verify_signature(signature, pub_key, input_string):
     # Load the public key
     public_key = load_der_public_key(pemdata)
 
-
     # Perform the verification
     try:
         public_key.verify(
@@ -34,7 +33,6 @@ def verify_signature(signature, pub_key, input_string):
 
 
 def verify_token(hash_local_token, domain):
-
     # Hash Master Token from DB x5
     # input_string = "pr8808ok8asm1ys8vdmwa5it8c"
 

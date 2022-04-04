@@ -8,25 +8,20 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
-text = "God is love"
 
-
-def load_payload():
-    # Write the contents of the file to be signed.
-    with open('payload.dat', 'wb') as f:
-        f.write(bytes(text, 'utf-8'))
-        f.close()
 
 
 def key_gen():
-    # Generate the public/private key pair.
+    """ Generates Public and Private Key pair using RSA. Key size 4096."""
+
+    # Generate the public/private key pair
     private_key = rsa.generate_private_key(
         public_exponent=65537,
         key_size=4096,
         backend=default_backend(),
     )
 
-    # Save the private key to a file.
+    # Save the private key to a file
     with open('private2.key', 'wb') as f:
         f.write(
             private_key.private_bytes(
@@ -36,7 +31,7 @@ def key_gen():
             )
         )
 
-    # Save the public key to a file.
+    # Save the public key to a file
     with open('public2.pem', 'wb') as f:
         f.write(
             private_key.public_key().public_bytes(
@@ -46,20 +41,35 @@ def key_gen():
         )
 
 
+def load_payload():
+    """ Writes  text to file, ie the payload """
+
+    text = "God is love"
+
+    with open('payload.dat', 'wb') as f:
+        f.write(bytes(text, 'utf-8'))
+        f.close()
+
+
 def sign():
-    # Load the private key.
-    with open('private.key', 'rb') as key_file:
+    """
+    Signs the payload with private key
+    Using SHA256 hash algo + Salt
+    """
+
+    # Load private key
+    with open('private2.key', 'rb') as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=None,
             backend=default_backend(),
         )
 
-    # Load the contents of the file to be signed.
+    # Load file to be signed
     with open('payload.dat', 'rb') as f:
         payload = f.read()
 
-    # Sign the payload file.
+    # Sign the payload file
     signature = base64.b64encode(
         private_key.sign(
             payload,
@@ -76,7 +86,7 @@ def sign():
 
 def verify():
     # Load the public key.
-    with open('public.pem', 'rb') as f:
+    with open('public2.pem', 'rb') as f:
         public_key = load_pem_public_key(f.read(), default_backend())
 
     # Load the payload contents and the signature.
@@ -111,4 +121,5 @@ def verify():
 
 
 if __name__ == '__main__':
-    print(verify())
+    result = verify()
+    print(result)
