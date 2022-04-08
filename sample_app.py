@@ -1,17 +1,17 @@
 from flask import Flask, render_template, redirect, url_for, request
 import requests
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates/black-dashboard-master/examples')
 
 
 @app.route('/')
 def home():
-    return "Hello, Successful login. Welcome to our App"  # return a string
+    return "Hello, Welcome to our App"  # return a string
 
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('templates/black-dashboard-master/examples/dashboard.html')  # render a template
+    return render_template('dashboard.html')  # render a template
 
 
 # Route for handling the login page logic
@@ -25,10 +25,10 @@ def login():
                 'domain': "testdomain.com"}
 
         response = requests.post(url=url, data=data)
-        # if request.form['username'] != 'admin':
-        #     error = 'Invalid Credentials. Please try again.'
-        # else:
-        #     return redirect(url_for('home'))
+        if request.form['username'] != 'admin':
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            return redirect(url_for('dashboard'))
 
         print(response)
 
