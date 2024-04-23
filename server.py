@@ -7,9 +7,7 @@ from sqlite3 import Error
 from pyfcm import FCMNotification
 import datetime
 
-push_service = FCMNotification(api_key='AAAA-7Kr15o:APA91bGaXA-5MV8dIwLJmsLV-AOEQskuafni92L5KjlW'
-                                       'm3svHL7A3PylNyWOxXFwAN00waETJh7c9HSFv2ftT09LUCHxkY_'
-                                       'Dvx38kl-tqGsCnjXVAXuVH66n6Os0Ve_-XeJcOBkb8auC')
+push_service = FCMNotification(api_key='myKEY')
 
 app = Flask(__name__)
 
