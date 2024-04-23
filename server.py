@@ -123,9 +123,7 @@ def authenticate():
     domain = record['domain']
 
     # TODO: Get the registration_id for a username and domain
-    registration_id = "cN0-Av6jS0YeuhpvE6Gb_6:APA91bF1j6BtH-NQC_zQFCxLNdI2_" \
-                      "fATypTKVzHZF3qa5SCnfp8liKpRb5KJgRhKiTrPr2yaDNaDTUQp0VW" \
-                      "KrgXu_vycTvUYXEp0xloUQc7EJXPn7Uj8CAt5tjnTyX0pPkdA2TEW73rl"
+    registration_id = "myID"
     message_title = "Login attempt " + domain
     message_body = "Do you want to login to "
 
