@@ -33,8 +33,6 @@ def verify_signature(signature, pub_key, input_string):
 
 
 def verify_token(hash_local_token, domain):
-    # Hash Master Token from DB x5
-    # input_string = "pr8808ok8asm1ys8vdmwa5it8c"
 
     token_from_db = get_token(domain)
     print("Token from DB: " + token_from_db)
